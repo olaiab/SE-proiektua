@@ -4,9 +4,12 @@
 //errutinak
 void *clock_routine(void *argv);
 void *timer_routine(void *argv);
+void *processgen(void *argv);
+void *scheduler(void *argv);
 
 extern int done;
 extern int tenp_kop;
+extern struct pcb proc_list[];
 
 //clock
 extern pthread_mutex_t mutex;
