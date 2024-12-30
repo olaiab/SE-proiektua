@@ -8,5 +8,6 @@ void *scheduler(void *argv){
     {
         while(sc==0){}
         
+        sc=0;
     }
 }

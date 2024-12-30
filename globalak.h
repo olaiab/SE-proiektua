@@ -21,6 +21,9 @@ extern pthread_cond_t cond2;
 struct pcb
 {
     int pid;
+    int state;      //0: itxaroten; 1: funtzionatzen; 2: blokeatuta; 3: amaitua
+    int priority;   //
+    int zikloak;    //zenbat ziklo bukatu arte
 };
 
 extern struct pcb proc_list[MAX_PROC];
