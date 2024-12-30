@@ -1,7 +1,11 @@
 #include <pthread.h>
+#include "globalak.h"
+
 
 int done;
 int tenp_kop;
+int pg;
+int sc;
 
 
 //clock
@@ -9,10 +13,5 @@ pthread_mutex_t mutex;
 pthread_cond_t cond;
 pthread_cond_t cond2;
 
-//PCB
-struct pcb
-{
-    int pid;
-};
 
-struct pcb proc_list[];
+struct pcb proc_list[MAX_PROC];
