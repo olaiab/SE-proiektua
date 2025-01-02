@@ -3,6 +3,12 @@
 #include <pthread.h>
 #include "globalak.h"
 
+pthread_mutex_t mutex;
+pthread_cond_t cond;
+pthread_cond_t cond2;
+
+int sc;
+int done;
 void *sctimer_routine(void *argv){
     sc=0;
     //Mutexa blokeatu

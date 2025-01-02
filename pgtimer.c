@@ -3,6 +3,12 @@
 #include <pthread.h>
 #include "globalak.h"
 
+pthread_mutex_t mutex;
+pthread_cond_t cond;
+pthread_cond_t cond2;
+
+int pg;
+int done;
 void *pgtimer_routine(void *argv){
     pg=0;
     //Mutexa blokeatu

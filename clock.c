@@ -4,6 +4,12 @@
 #include <unistd.h>
 #include "globalak.h"
 
+pthread_mutex_t mutex;
+pthread_cond_t cond;
+pthread_cond_t cond2;
+
+int done;
+int tenp_kop;
 void *clock_routine(void *argv){
     //Semaforoa hasieratu
     done=0;

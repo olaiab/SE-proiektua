@@ -3,7 +3,8 @@
 #include <pthread.h>
 #include "globalak.h"
 
-
+int pg;
+struct pcb proc_list[MAX_PROC];
 
 void *processgen(void *argv){
     int pos=0;

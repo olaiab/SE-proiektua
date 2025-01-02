@@ -11,6 +11,11 @@ extern int done;
 extern int tenp_kop;
 extern int pg;
 extern int sc;
+extern int erlojua;
+extern int CPU;
+extern int core;
+extern int threads;
+extern int quantum;
 
 extern int create_now;
 //clock
@@ -34,9 +39,10 @@ struct thread
     int quantum;    // Quantuma
     int libre;      // Hariaren egoera 0=libre || 1=exekutatzen
 };
+
 struct core // CPU bakoitzean dauden core-ak
 {
-    struct thread *hari_lista;
+    struct thread *thread_list;
 };
 
 struct CPU // CPU-ak
