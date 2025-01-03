@@ -106,12 +106,12 @@ int main(){
     }
     
 
-    printf("Aukeratutako konfigurazioa:\n");
+    printf("\nAukeratutako konfigurazioa:\n");
     printf("CPU kopurua: ----------------------- %d\n",CPU);
     printf("Core kopurua: ---------------------- %d\n",core);
     printf("Hari kopurua: ---------------------- %d\n",threads);
     printf("Quantumaren balioa: ---------------- %d\n",quantum);
-    printf("Erlojuaren maiztasuna: ------------- %d\n",erlojua);
+    printf("Erlojuaren maiztasuna: ------------- %d\n\n",erlojua);
 
 
     //Mutex
