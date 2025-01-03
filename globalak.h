@@ -16,6 +16,8 @@ extern int CPU;
 extern int core;
 extern int threads;
 extern int quantum;
+extern int pgtick;
+extern int sctick;
 
 extern int create_now;
 //clock

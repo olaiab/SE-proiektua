@@ -17,10 +17,10 @@ void *clock_routine(void *argv){
     while(1){
         pthread_mutex_lock(&mutex);
         while (done < tenp_kop){
-            printf("[Clock] Buenas buenas \n");
             //Mutexa liberatu cond seinalea jaso arte
             pthread_cond_wait(&cond, &mutex);
         }
+        printf("[Clock] Tick\n");
         sleep(1);
         done=0;
         pthread_cond_broadcast(&cond2);

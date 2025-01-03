@@ -19,7 +19,7 @@ void *processgen(void *argv){
         int cpid=proc_list[pos].pid;
         int npid=cpid+1;
         pos ++;
-        printf("[Progn] Prozesu berria; PID: %d\n", npid);
+        printf("[Progn] Prozesu berria sortuta; PID: %d\n", npid);
         proc_list[pos].pid=npid;
         pg=0;
     }

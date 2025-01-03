@@ -21,6 +21,9 @@ int CPU;
 int core;
 int threads;
 int quantum;
+int i;
+int j;
+int k;
 
 struct CPU *CPU_list;
 int main(){
@@ -75,7 +78,7 @@ int main(){
                 printf("Sarrera okerra, sartu berriro:\n");
             } else sarrera++;
         }
-        thread=input;
+        threads=input;
         //Quantum
         sarrera=0;
         input=-666;
@@ -89,8 +92,28 @@ int main(){
         quantum=input;
 
     //Hardwarea hasieratu
+    CPU_list = (struct CPU *)malloc(sizeof(struct CPU) * (int)CPU);
+    for (i=0; i++; i<CPU){
+        CPU_list[i].core_list=(struct core *)malloc(sizeof (struct core) * (int)core);
+        for (j=0; j++; j<core){
+            CPU_list[i].core_list[j].thread_list= (struct thread *)malloc(sizeof (struct thread) * (int)threads);
+            for (k=0; k++; k<threads){
+                CPU_list[i].core_list[j].thread_list[k].pcb.pid=-1;
+                CPU_list[i].core_list[j].thread_list[k].quantum=quantum;
+                CPU_list[i].core_list[j].thread_list[k].libre=0;
+            }
+        }
+    }
     
-    
+
+    printf("Aukeratutako konfigurazioa:\n");
+    printf("CPU kopurua: ----------------------- %d\n",CPU);
+    printf("Core kopurua: ---------------------- %d\n",core);
+    printf("Hari kopurua: ---------------------- %d\n",threads);
+    printf("Quantumaren balioa: ---------------- %d\n",quantum);
+    printf("Erlojuaren maiztasuna: ------------- %d\n",erlojua);
+
+
     //Mutex
     //Haria, -, errutina, argumentuak
     pthread_create(&clock_thread, NULL, clock_routine, NULL);
