@@ -12,12 +12,13 @@ extern int tenp_kop;
 extern int pg;
 extern int sc;
 extern int erlojua;
-extern int CPU;
-extern int core;
-extern int threads;
+extern int CPUk;
+extern int corek;
+extern int threadsk;
 extern int quantum;
 extern int pgtick;
 extern int sctick;
+extern int blocked;
 
 extern int create_now;
 //clock
@@ -28,12 +29,13 @@ extern pthread_cond_t cond2;
 struct pcb
 {
     int pid;
-    int state;      //0: itxaroten; 1: funtzionatzen; 2: blokeatuta; 3: amaitua
+    int state;      //0: funtzionatzen; 1: blokeatuta; 2: amaituta;
     int priority;   //
     int zikloak;    //zenbat ziklo bukatu arte
 };
 
 extern struct pcb proc_list[MAX_PROC];
+extern struct pcb proc_waiting[MAX_PROC];
 
 struct thread 
 {

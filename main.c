@@ -17,13 +17,14 @@ pthread_cond_t cond2;
 pthread_t clock_thread, pgtimer_thread, sctimer_thread, processgen_thread, scheduler_thread;
 
 int erlojua;
-int CPU;
-int core;
-int threads;
+int CPUk;
+int corek;
+int threadsk;
 int quantum;
 int i;
 int j;
 int k;
+int blocked;
 
 struct CPU *CPU_list;
 int main(){
@@ -56,7 +57,7 @@ int main(){
                 printf("Sarrera okerra, sartu berriro:\n");
             } else sarrera++;
         }
-        CPU=input;
+        CPUk=input;
         //Core 
         sarrera=0;
         input=-666;
@@ -67,7 +68,7 @@ int main(){
                 printf("Sarrera okerra, sartu berriro:\n");
             } else sarrera++;
         }
-        core=input;
+        corek=input;
         //Hari kopurua
         sarrera=0;
         input=-666;
@@ -78,7 +79,7 @@ int main(){
                 printf("Sarrera okerra, sartu berriro:\n");
             } else sarrera++;
         }
-        threads=input;
+        threadsk=input;
         //Quantum
         sarrera=0;
         input=-666;
@@ -92,12 +93,12 @@ int main(){
         quantum=input;
 
     //Hardwarea hasieratu
-    CPU_list = (struct CPU *)malloc(sizeof(struct CPU) * (int)CPU);
-    for (i=0; i++; i<CPU){
-        CPU_list[i].core_list=(struct core *)malloc(sizeof (struct core) * (int)core);
-        for (j=0; j++; j<core){
-            CPU_list[i].core_list[j].thread_list= (struct thread *)malloc(sizeof (struct thread) * (int)threads);
-            for (k=0; k++; k<threads){
+    CPU_list = malloc(sizeof(struct CPU) * (int)CPUk);
+    for (i=0; i<CPUk; i++){
+        CPU_list[i].core_list=malloc(sizeof (struct core) * (int)corek);
+        for (j=0; j<corek; j++){
+            CPU_list[i].core_list[j].thread_list=malloc(sizeof (struct thread) * (int)threadsk);
+            for (k=0; k<threadsk; k++){
                 CPU_list[i].core_list[j].thread_list[k].pcb.pid=-1;
                 CPU_list[i].core_list[j].thread_list[k].quantum=quantum;
                 CPU_list[i].core_list[j].thread_list[k].libre=0;
@@ -107,9 +108,9 @@ int main(){
     
 
     printf("\nAukeratutako konfigurazioa:\n");
-    printf("CPU kopurua: ----------------------- %d\n",CPU);
-    printf("Core kopurua: ---------------------- %d\n",core);
-    printf("Hari kopurua: ---------------------- %d\n",threads);
+    printf("CPU kopurua: ----------------------- %d\n",CPUk);
+    printf("Core kopurua: ---------------------- %d\n",corek);
+    printf("Hari kopurua: ---------------------- %d\n",threadsk);
     printf("Quantumaren balioa: ---------------- %d\n",quantum);
     printf("Erlojuaren maiztasuna: ------------- %d\n\n",erlojua);
 
@@ -121,10 +122,13 @@ int main(){
     pthread_create(&sctimer_thread, NULL, sctimer_routine, NULL);
     //Prozesu sortzailea
     pthread_create(&processgen_thread, NULL, processgen, NULL);
+    //Scheduler
+    pthread_create(&scheduler_thread, NULL, roundRobin, NULL);
     sleep(10);
 
     pthread_join(clock_thread, NULL);
     pthread_join(pgtimer_thread, NULL);
     pthread_join(sctimer_thread, NULL);
-    pthread_join(processgen_thread, NULL);        
+    pthread_join(processgen_thread, NULL);   
+    pthread_join(scheduler_thread, NULL);
 }

@@ -20,7 +20,7 @@ void *clock_routine(void *argv){
             //Mutexa liberatu cond seinalea jaso arte
             pthread_cond_wait(&cond, &mutex);
         }
-        printf("[Clock] Tick\n");
+        printf("\n[Clock] Tick\n");
         sleep(1);
         done=0;
         pthread_cond_broadcast(&cond2);

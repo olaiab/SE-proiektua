@@ -15,13 +15,13 @@ void *pgtimer_routine(void *argv){
     pg=0;
     //Mutexa blokeatu
     pthread_mutex_lock(&mutex);
-    while(1){
+    while(1)
+    {
         done++;
-        
         if (i>=erlojua){
             pgtick=1;
             i=0;
-            printf("[PGTim] Hola Don Pepito\n");
+            //printf("[PGTim] Hola Don Pepito\n");
             //Aqui es donde se pone lo que queramos hacer hasta liberar el mutex
                 //darle permiso a processgen para existir
             pg=1;
