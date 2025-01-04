@@ -25,6 +25,7 @@ int i;
 int j;
 int k;
 int blocked;
+int politika;
 
 struct CPU *CPU_list;
 int main(){
@@ -39,58 +40,81 @@ int main(){
         //Erlojuaren maiztasuna
         sarrera=0;
         input=-666;
-        printf("Erlojuaren maiztasuna ezarri:\n");
+        printf("Erlojuaren maiztasuna ezarri:   ");
         while (!sarrera){
             scanf("%d", &input);
             if (input < 1){
-                printf("Sarrera okerra, sartu berriro:\n");
+                printf("\nSarrera okerra, sartu berriro:  ");
             } else sarrera++;
         }
         erlojua=input;
         //CPU kopurua
         sarrera=0;
         input=-666;
-        printf("CPU kopurua ezarri (1, 2, 4, 8, 16, 32, 64):\n");
+        printf("\nCPU kopurua ezarri (1, 2, 4, 8, 16, 32, 64):    ");
         while (!sarrera){
             scanf("%d", &input);
             if (input != 1 && input != 2 && input != 4 && input != 8 && input != 16 && input != 32 && input != 64 ){
-                printf("Sarrera okerra, sartu berriro:\n");
+                printf("\nSarrera okerra, sartu berriro:  ");
             } else sarrera++;
         }
         CPUk=input;
         //Core 
         sarrera=0;
         input=-666;
-        printf("Core kopurua ezarri (1, 2, 4, 8, 16, 32, 64):\n");
+        printf("\nCore kopurua ezarri (1, 2, 4, 8, 16, 32, 64): ");
         while (!sarrera){
             scanf("%d", &input);
             if (input != 1 && input != 2 && input != 4 && input != 8 && input != 16 && input != 32 && input != 64 ){
-                printf("Sarrera okerra, sartu berriro:\n");
+                printf("\nSarrera okerra, sartu berriro:    ");
             } else sarrera++;
         }
         corek=input;
         //Hari kopurua
         sarrera=0;
         input=-666;
-        printf("Hari kopurua ezarri (1, 2, 4, 8):\n");
+        printf("\nHari kopurua ezarri (1, 2, 4, 8): ");
         while (!sarrera){
             scanf("%d", &input);
             if (input != 1 && input != 2 && input != 4 && input != 8){
-                printf("Sarrera okerra, sartu berriro:\n");
+                printf("\nSarrera okerra, sartu berriro:    ");
             } else sarrera++;
         }
         threadsk=input;
-        //Quantum
+        //Planifikazio politika
         sarrera=0;
         input=-666;
-        printf("Quantumaren balioa ezarri:\n");
+        char *politikak[]={
+            "RoundRobin",
+            "First come, first served",
+            "Lehentasunak"
+        };
+
+        printf("\nPlanifikazio politika zehaztu:");
+        printf("RoundRobin -------------------------- 1\n");
+        printf("First come, first served ------------ 2\n");
+        printf("Lehentasunak ------------------------ 3\n\n");
         while (!sarrera){
             scanf("%d", &input);
-            if (input < 1){
-                printf("Sarrera okerra, sartu berriro:\n");
+            if (input != 1 && input != 2 && input != 3){
+                printf("\nSarrera okerra, sartu berriro:    ");
             } else sarrera++;
         }
-        quantum=input;
+        politika=input;
+        //Quantuma
+        if (politika==1){
+            sarrera=0;
+            input=-666;
+            printf("\nQuantumaren balioa ezarri:    ");
+            while (!sarrera){
+                scanf("%d", &input);
+                if (input < 1){
+                    printf("\nSarrera okerra, sartu berriro:  ");
+                } else sarrera++;
+            }
+            quantum=input;
+        } else quantum=-1;
+        
 
     //Hardwarea hasieratu
     CPU_list = malloc(sizeof(struct CPU) * (int)CPUk);
@@ -107,12 +131,14 @@ int main(){
     }
     
 
-    printf("\nAukeratutako konfigurazioa:\n");
-    printf("CPU kopurua: ----------------------- %d\n",CPUk);
-    printf("Core kopurua: ---------------------- %d\n",corek);
-    printf("Hari kopurua: ---------------------- %d\n",threadsk);
-    printf("Quantumaren balioa: ---------------- %d\n",quantum);
-    printf("Erlojuaren maiztasuna: ------------- %d\n\n",erlojua);
+    printf("\n-----AUKERATUTAKO KONFIGURAZIOA-----\n");
+    printf("CPU kopurua: ------------------------- %d\n",CPUk);
+    printf("Core kopurua: ------------------------ %d\n",corek);
+    printf("Hari kopurua: ------------------------ %d\n",threadsk);
+    printf("Erlojuaren maiztasuna: --------------- %d\n",erlojua);
+    printf("Aukeratutako politika: --------------- %s\n",politikak[politika-1]);
+    if (politika==1) ("Quantumaren balioa: ------------------ %d\n",quantum);
+    printf("\n");
 
 
     //Mutex
@@ -123,7 +149,8 @@ int main(){
     //Prozesu sortzailea
     pthread_create(&processgen_thread, NULL, processgen, NULL);
     //Scheduler
-    pthread_create(&scheduler_thread, NULL, roundRobin, NULL);
+    if (politika==1)        pthread_create(&scheduler_thread, NULL, roundRobin, NULL);
+    else if (politika==2)   pthread_create(&scheduler_thread, NULL, fcfs, NULL);
     sleep(10);
 
     pthread_join(clock_thread, NULL);

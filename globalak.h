@@ -18,8 +18,8 @@ extern int threadsk;
 extern int quantum;
 extern int pgtick;
 extern int sctick;
-extern int blocked;
-
+extern int waiting;
+extern int politika;
 extern int create_now;
 //clock
 extern pthread_mutex_t mutex;

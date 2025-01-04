@@ -6,7 +6,7 @@
 int pg;
 struct pcb proc_list[MAX_PROC];
 struct pcb proc_waiting[MAX_PROC];
-int blocked;
+int waiting;
 
 void *processgen(void *argv){
     int pos=0;
@@ -27,9 +27,10 @@ void *processgen(void *argv){
         proc_list[pos].state=1;
         proc_list[pos].zikloak=rand()%10;   //ziklo kopurua ausaz, gehienez 10 ziklo
 
-        printf("\nProzesu berria sortuta; PID: %d\nZikloak: %d\n\n", npid, proc_list[pos].zikloak);
-        proc_waiting[blocked]=proc_list[pos];
-        blocked++;
+        printf("\n\033[1;36mProzesu berria sortuta; PID: %d\033[0m\n", npid);
+        printf("\033[1;36mZikloak: %d\033[0m\n", proc_list[pos].zikloak);
+        proc_waiting[waiting]=proc_list[pos];
+        waiting++;
         pg=0;
     }
 }
