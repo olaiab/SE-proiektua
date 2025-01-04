@@ -44,40 +44,40 @@ int main(){
         while (!sarrera){
             scanf("%d", &input);
             if (input < 1){
-                printf("\nSarrera okerra, sartu berriro:  ");
+                printf("\nSarrera okerra, sartu berriro:   ");
             } else sarrera++;
         }
         erlojua=input;
         //CPU kopurua
         sarrera=0;
         input=-666;
-        printf("\nCPU kopurua ezarri (1, 2, 4, 8, 16, 32, 64):    ");
+        printf("\nCPU kopurua ezarri (1, 2, 4, 8, 16, 32, 64):   ");
         while (!sarrera){
             scanf("%d", &input);
             if (input != 1 && input != 2 && input != 4 && input != 8 && input != 16 && input != 32 && input != 64 ){
-                printf("\nSarrera okerra, sartu berriro:  ");
+                printf("\nSarrera okerra, sartu berriro:   ");
             } else sarrera++;
         }
         CPUk=input;
         //Core 
         sarrera=0;
         input=-666;
-        printf("\nCore kopurua ezarri (1, 2, 4, 8, 16, 32, 64): ");
+        printf("\nCore kopurua ezarri (1, 2, 4, 8, 16, 32, 64):   ");
         while (!sarrera){
             scanf("%d", &input);
             if (input != 1 && input != 2 && input != 4 && input != 8 && input != 16 && input != 32 && input != 64 ){
-                printf("\nSarrera okerra, sartu berriro:    ");
+                printf("\nSarrera okerra, sartu berriro:   ");
             } else sarrera++;
         }
         corek=input;
         //Hari kopurua
         sarrera=0;
         input=-666;
-        printf("\nHari kopurua ezarri (1, 2, 4, 8): ");
+        printf("\nHari kopurua ezarri (1, 2, 4, 8):   ");
         while (!sarrera){
             scanf("%d", &input);
             if (input != 1 && input != 2 && input != 4 && input != 8){
-                printf("\nSarrera okerra, sartu berriro:    ");
+                printf("\nSarrera okerra, sartu berriro:   ");
             } else sarrera++;
         }
         threadsk=input;
@@ -90,7 +90,7 @@ int main(){
             "Lehentasunak"
         };
 
-        printf("\nPlanifikazio politika zehaztu:");
+        printf("\nPlanifikazio politika zehaztu:\n");
         printf("RoundRobin -------------------------- 1\n");
         printf("First come, first served ------------ 2\n");
         printf("Lehentasunak ------------------------ 3\n\n");
@@ -131,7 +131,7 @@ int main(){
     }
     
 
-    printf("\n-----AUKERATUTAKO KONFIGURAZIOA-----\n");
+    printf("\n-------AUKERATUTAKO KONFIGURAZIOA-------\n");
     printf("CPU kopurua: ------------------------- %d\n",CPUk);
     printf("Core kopurua: ------------------------ %d\n",corek);
     printf("Hari kopurua: ------------------------ %d\n",threadsk);
