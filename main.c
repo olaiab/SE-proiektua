@@ -151,7 +151,6 @@ int main(){
     //Scheduler
     if (politika==1)        pthread_create(&scheduler_thread, NULL, roundRobin, NULL);
     else if (politika==2)   pthread_create(&scheduler_thread, NULL, fcfs, NULL);
-    sleep(10);
 
     pthread_join(clock_thread, NULL);
     pthread_join(pgtimer_thread, NULL);
