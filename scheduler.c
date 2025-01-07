@@ -18,6 +18,12 @@ void *roundRobin(void *argv){
     while (1)
     {
         while(sc==0){}
+        if (waiting>0){
+            printf("\n\033[1m-----ITXAROTE ZERRENDA-----\033[0m\n");
+                    for (h=0; h<waiting; h++){                                        //Zerrenda inprimatzen
+                            printf("    \033[1m-PID: %d\033[0m\n", proc_waiting[h].pid);
+                        }
+        }else printf("\n\033[1mEz dago prozesurik itxarote zerrendan\033[0m\n");
         for (i=0; i<CPUk; i++)
         {
             printf("\n\033[1m%d. CPU\033[0m\n", i);
@@ -29,7 +35,7 @@ void *roundRobin(void *argv){
                     printf("\033[1m        %d. HARIA\033[0m\n", k);
                     if (CPU_list[i].core_list[j].thread_list[k].quantum==0)                 //Quantuma amaitu da
                     {
-                        printf("\033[1;31m            %d. prozesua blokeatu da\033[0m\n", CPU_list[i].core_list[j].thread_list[k].pcb.pid);
+                        printf("\033[1;31m            %d. prozesua blokeatu da.\033[0m\n", CPU_list[i].core_list[j].thread_list[k].pcb.pid);
                         printf("            Geratzen diren zikloak: %d\n\n", CPU_list[i].core_list[j].thread_list[k].pcb.zikloak);
                         CPU_list[i].core_list[j].thread_list[k].pcb.state=1;                //Prozesua blokeatuta
                         proc_waiting[waiting]=CPU_list[i].core_list[j].thread_list[k].pcb;  //Blokeo listara sartu
@@ -47,7 +53,7 @@ void *roundRobin(void *argv){
                         CPU_list[i].core_list[j].thread_list[k].pcb.zikloak --;             //Amaitzeko zikloak murriztu
                         if (CPU_list[i].core_list[j].thread_list[k].pcb.zikloak <= 0)
                         {
-                            printf("\033[1;92m            %d. prozesua amaitu da\033[0m\n\n", CPU_list[i].core_list[j].thread_list[k].pcb.pid);
+                            printf("\033[1;92m            %d. prozesua amaitu da.\033[0m\n\n", CPU_list[i].core_list[j].thread_list[k].pcb.pid);
                             CPU_list[i].core_list[j].thread_list[k].pcb.state=2;            //Prozesua amaitu da
                             CPU_list[i].core_list[j].thread_list[k].libre=0;                //Haria askatu
                             CPU_list[i].core_list[j].thread_list[k].quantum=quantum;        //Quantuma berrezarri

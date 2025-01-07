@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <stdint.h>
 #include "processgen.c"
 #include "pgtimer.c"
 #include "sctimer.c"
@@ -26,10 +27,22 @@ int j;
 int k;
 int blocked;
 int politika;
+int pos=0;
+int pid=1;
 
 struct CPU *CPU_list;
+
+void memoria_hasieratu(){
+    disko=malloc(MEM_TAMAINA);
+    if (!disko){
+        printf("\033[1;31mErrorea memoria fisikoa sortzerakoan\033[0m\n");
+        exit (1);
+    }
+    printf("\033[1mmMemoria fisikoa ondo hasieratua\033[0m\n");
+}
+
 int main(){
-    
+   
     pthread_mutex_init(&mutex, NULL);
     pthread_cond_init(&cond, NULL);
     pthread_cond_init(&cond2, NULL);
@@ -130,6 +143,7 @@ int main(){
         }
     }
     
+    memoria_hasieratu();
 
     printf("\n-------AUKERATUTAKO KONFIGURAZIOA-------\n");
     printf("CPU kopurua: ------------------------- %d\n",CPUk);
