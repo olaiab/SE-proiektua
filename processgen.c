@@ -25,7 +25,7 @@ void *processgen(void *argv){
         pos ++;
         proc_list[pos].pid=npid;
         proc_list[pos].state=1;
-        proc_list[pos].zikloak=rand()%10;   //ziklo kopurua ausaz, gehienez 10 ziklo
+        proc_list[pos].zikloak=rand()%100;   //ziklo kopurua ausaz, gehienez 10 ziklo
 
         printf("\n\033[1;36mProzesu berria sortuta; PID: %d\033[0m\n", npid);
         printf("\033[1;36mZikloak: %d\033[0m\n", proc_list[pos].zikloak);
