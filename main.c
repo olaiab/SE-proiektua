@@ -32,21 +32,14 @@ int pid=1;
 
 struct CPU *CPU_list;
 
-void memoria_hasieratu(){
-    disko=malloc(MEM_TAMAINA);
-    if (!disko){
-        printf("\033[1;31mErrorea memoria fisikoa sortzerakoan\033[0m\n");
-        exit (1);
-    }
-    printf("\033[1mMemoria fisikoa ondo hasieratua\033[0m\n");
-}
-
 int main(){
-   
     pthread_mutex_init(&mutex, NULL);
     pthread_cond_init(&cond, NULL);
     pthread_cond_init(&cond2, NULL);
 
+    power=1;
+    //programentzako direktorioa
+    
     //Konfigurazio parametroak jaso
     int sarrera;
     int input=-666;
@@ -126,8 +119,32 @@ int main(){
                 } else sarrera++;
             }
             quantum=input;
-        } else quantum=-1;
-        
+        } else quantum=-1;    
+
+    printf("\n-------AUKERATUTAKO KONFIGURAZIOA-------\n");
+    printf("CPU kopurua: ------------------------- %d\n",CPUk);
+    printf("Core kopurua: ------------------------ %d\n",corek);
+    printf("Hari kopurua: ------------------------ %d\n",threadsk);
+    printf("Erlojuaren maiztasuna: --------------- %d\n",erlojua);
+    printf("Aukeratutako politika: --------------- %s\n",politikak[politika-1]);
+    if (politika==1) ("Quantumaren balioa: ------------------ %d\n",quantum);
+    printf("\n");
+
+    printf("\033[1mHASIERAKETAK\033[0m\n");
+    if (opendir("programak")){
+         //Aurreko exekuzioko programak ezabatu
+        printf("    -Programak ezabatzen\n");
+        system("rm -r programak");
+    }
+    system("mkdir programak");
+    printf("    -Direktorio berria sortuta\n");
+
+    disko=malloc(MEM_TAMAINA);
+    if (!disko){
+        printf("\033[1;31mErrorea memoria fisikoa sortzerakoan\033[0m\n");
+        exit (1);
+    }
+    printf("    -Memoria fisikoa ondo hasieratua\n");
 
     //Hardwarea hasieratu
     CPU_list = malloc(sizeof(struct CPU) * (int)CPUk);
@@ -144,33 +161,59 @@ int main(){
             }
         }
     }
-    
-    memoria_hasieratu();
 
-    printf("\n-------AUKERATUTAKO KONFIGURAZIOA-------\n");
-    printf("CPU kopurua: ------------------------- %d\n",CPUk);
-    printf("Core kopurua: ------------------------ %d\n",corek);
-    printf("Hari kopurua: ------------------------ %d\n",threadsk);
-    printf("Erlojuaren maiztasuna: --------------- %d\n",erlojua);
-    printf("Aukeratutako politika: --------------- %s\n",politikak[politika-1]);
-    if (politika==1) ("Quantumaren balioa: ------------------ %d\n",quantum);
-    printf("\n");
+    printf("    -Hardwarea hasieratuta\n");
 
+    printf("\033[1;92m\nSIMULAZIOA MARTXAN\033[0m\n");
 
     //Mutex
     //Haria, -, errutina, argumentuak
     pthread_create(&clock_thread, NULL, clock_routine, NULL);
     pthread_create(&pgtimer_thread, NULL, pgtimer_routine, NULL);
     pthread_create(&sctimer_thread, NULL, sctimer_routine, NULL);
+    
     //Prozesu sortzailea
     //pthread_create(&processgen_thread, NULL, processgen, NULL);
     //Scheduler
     //if (politika==1)        pthread_create(&scheduler_thread, NULL, roundRobin, NULL);
     //else if (politika==2)   pthread_create(&scheduler_thread, NULL, fcfs, NULL);
 
-    pthread_join(clock_thread, NULL);
-    pthread_join(pgtimer_thread, NULL);
-    pthread_join(sctimer_thread, NULL);
-    pthread_join(processgen_thread, NULL);   
-    pthread_join(scheduler_thread, NULL);
+    char powerInput[10];
+    while (power)
+    {
+        scanf("%s", powerInput);
+        if (strcmp(powerInput, ".") == 0)
+        {
+            power = 0; // Programa amaitzeko
+        }
+    }
+
+
+    //Hariak ezabatu
+    printf("\n    -Hariak ezabatzen...\n");
+    
+    pthread_detach(clock_thread);
+    pthread_detach(pgtimer_thread);
+    pthread_detach(sctimer_thread);
+
+    //Memoria askatu
+    printf("    -Memoria askatzen...\n");
+    for (i=0; i<CPUk; i++){
+        for (j=0; j<corek; j++){
+            for (k=0; k<threadsk; k++){
+                free(CPU_list[i].core_list[j].thread_list[k].IR);
+            }
+            free(CPU_list[i].core_list[j].thread_list);
+        }
+        free(CPU_list[i].core_list);
+    }
+    free(CPU_list);
+    free(disko);
+
+    printf("    -Mutexak askatzen...\n");
+    pthread_mutex_destroy(&mutex);
+    pthread_cond_destroy(&cond);
+    pthread_cond_destroy(&cond2);
+
+    printf("\n\033[1;92mEXEKUZIOA AMAITUTA\033[0m\n");
 }

@@ -10,12 +10,14 @@ pthread_cond_t cond2;
 int sc;
 int done;
 int sctick;
+int power;
+
 void *sctimer_routine(void *argv){
 
     int i=0;
     //Mutexa blokeatu
     pthread_mutex_lock(&mutex);
-    while(1)
+    while(power==1)
     {
         done++;
          if (i>=erlojua){

@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
 
     for(pnum = conf.first_number; pnum < (conf.first_number + conf.how_many); pnum++){
 
-        sprintf(file_name,"%s%03d.elf", conf.prog_name, pnum);
+        sprintf(file_name,"programak/%s%03d.elf", conf.prog_name, pnum);
         if((fd = fopen(file_name, "w")) == NULL){
             __error(0,"Error while opening file");
         } // if

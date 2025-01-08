@@ -10,11 +10,13 @@ pthread_cond_t cond2;
 
 int done;
 int tenp_kop;
+int power;
+
 void *clock_routine(void *argv){
     //Semaforoa hasieratu
     done=0;
     tenp_kop=2;
-    while(1){
+    while(power==1){
         pthread_mutex_lock(&mutex);
         while (done < tenp_kop){
             //Mutexa liberatu cond seinalea jaso arte
@@ -25,4 +27,5 @@ void *clock_routine(void *argv){
         pthread_cond_broadcast(&cond2);
         pthread_mutex_unlock(&mutex);
     }
+    
 }

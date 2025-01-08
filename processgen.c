@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <string.h>
+#include <dirent.h>
 #include "globalak.h"
 
 int pg;
@@ -18,7 +19,7 @@ void orri_taula_sortu(struct pcb *pcb){
         printf("\033[1;31mErrorea orri-taula sortzerakoan\033[0m\n");
         exit(1);
     }
-    printf("\033[1;36mOrri-taula sortua.\033[0m\n\n");
+    printf("\033[1;36mOrri-taula sortua\033[0m\n");
 }
 
 void *programak_kargatu(struct pcb *pcb, char *fitx_izena){
@@ -70,6 +71,7 @@ void *programak_kargatu(struct pcb *pcb, char *fitx_izena){
     printf("CODE\n%s\n\n", pcb->mm.code);
     printf("DATA\n%s\n\n", pcb->mm.data);
     */
+   printf("\033[1;36mPrograma kargatuta\033[0m\n");
     fclose(fitx);    
 }
 
@@ -80,16 +82,18 @@ void *prozesua_sortu(){
         //printf("[Progn] Posizioa: %d\n",pos);
             //Hurrengo pid lortzeko: proc_list[next-1].pid es el pid del ultimo proceso
     char fitx_izena[32];
+    char exekuzioa[256];
     int cpid=proc_list[pos].pid;
     int npid=cpid+1;
     pos ++;
     proc_list[pos].pid=npid;
     proc_list[pos].state=1;
     proc_list[pos].exit=0;
-    proc_list[pos].zikloak=rand()%100;   //ziklo kopurua ausaz, gehienez 10 ziklo
-    printf("\n\033[1;36mPROZESU BERRIA SORTUTA \nPID: %d \nZikloak: %d\033[0m\n", npid, proc_list[pos].zikloak);
-    
-    sprintf(fitx_izena, "prometheus/prog%03d.elf", proc_list[pos].pid);
+    //proc_list[pos].zikloak=rand()%100;   //ziklo kopurua ausaz, gehienez 100 ziklo
+    printf("\n\033[1;36mPROZESU BERRIA SORTUTA \nPID: %d \033[0m\n", npid);
+    snprintf(exekuzioa, sizeof(exekuzioa), "./prometheus/prometheus -nprog -f%d -p1 -s%d > irteera.txt", proc_list[pos].pid, rand());
+    system(exekuzioa);
+    sprintf(fitx_izena, "programak/prog%03d.elf", proc_list[pos].pid);
     programak_kargatu(&proc_list[pos], fitx_izena);
     orri_taula_sortu(&proc_list[pos]);
     proc_waiting[waiting]=&proc_list[pos];

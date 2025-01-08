@@ -9,6 +9,7 @@
 void *clock_routine(void *argv);
 void *timer_routine(void *argv);
 void *processgen(void *argv);
+void *prozesua_sortu();
 void *scheduler();
 
 extern int done;
@@ -25,6 +26,7 @@ extern int sctick;
 extern int waiting;
 extern int politika;
 extern int create_now;
+extern int power;
 //clock
 extern pthread_mutex_t mutex;
 extern pthread_cond_t cond;
@@ -81,6 +83,6 @@ extern struct CPU *CPU_list;
 
 extern uint8_t *disko;
 
-void *prozesua_sortu();
-void *scheduler();
+void *buennoc[sizeof(int)];
+int buennkop;
 #endif 

@@ -9,11 +9,13 @@ pthread_cond_t cond2;
 
 int done;
 int pgtick;
+int power;
+
 void *pgtimer_routine(void *argv){
     int i=0;
     //Mutexa blokeatu
     pthread_mutex_lock(&mutex);
-    while(1)
+    while(power==1)
     {
         done++;
         if (i>=erlojua){
