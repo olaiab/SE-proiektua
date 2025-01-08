@@ -4,7 +4,7 @@
 #include "globalak.h"
 
 int sc;
-struct pcb proc_waiting[MAX_PROC];
+struct pcb *proc_waiting[MAX_PROC];
 int waiting;
 int CPUk;
 int corek;
@@ -13,9 +13,10 @@ int threadsk;
 void lerroa_exekutatu(struct thread *thread){
     if (thread->pcb.mm.code!=NULL && thread->PC < (int)strlen(thread->pcb.mm.code)){
         snprintf(thread->IR, sizeof(thread->IR), "%s", thread->pcb.mm.code + thread->PC);
-        printf("%s agindua exekutatzen\n", thread->IR);
+        printf("\033[1;33mPID %d: %s agindua exekutatzen: \033[0m", thread->pcb.pid, thread->IR);
     }else{
-        printf("Errorea lerroa irakurtzean\n");
+        if (thread->pcb.mm.code==NULL)printf("\033[1;31mPID: %d CODE = (null)\033[0m\n", thread->pcb.pid);
+        printf("\033[1;31mErrorea lerroa irakurtzean\033[0m\n");
         return;
     }
     thread->PC+=strlen(thread->IR);
@@ -25,19 +26,19 @@ void lerroa_exekutatu(struct thread *thread){
     {
     case '0':
         //LD --> CRAAAAAA
-        printf("LD\n");
+        printf("\033[1;33mLD\033[0m\n");
         break;
     case '1':
         //ST --> CRAAAAAA
-        printf("ST\n");
+        printf("\033[1;33mST\033[0m\n");
         break;
     case '2':
         //ADD --> CRRR----
-        printf("ADD\n");
+        printf("\033[1;33mADD\033[0m\n");
         break;
     case 'F':
         //EXIT
-        printf("EXIT\n");
+        printf("\033[1;33mEXIT\033[0m\n");
         thread->pcb.exit=1;
         break;
     default:
@@ -56,7 +57,7 @@ void *roundRobin(void *argv){
         if (waiting>0){
             printf("\n\033[1m-----ITXAROTE ZERRENDA-----\033[0m\n");
                     for (h=0; h<waiting; h++){                                        //Zerrenda inprimatzen
-                            printf("    \033[1m-PID: %d\033[0m\n", proc_waiting[h].pid);
+                            printf("    \033[1m-PID: %d\033[0m\n", proc_waiting[h]->pid);
                         }
         }else printf("\n\033[1mEz dago prozesurik itxarote zerrendan\033[0m\n");
         for (i=0; i<CPUk; i++)
@@ -73,7 +74,7 @@ void *roundRobin(void *argv){
                         printf("\033[1;31m            %d. prozesua blokeatu da.\033[0m\n", CPU_list[i].core_list[j].thread_list[k].pcb.pid);
                         printf("            Geratzen diren zikloak: %d\n\n", CPU_list[i].core_list[j].thread_list[k].pcb.zikloak);
                         CPU_list[i].core_list[j].thread_list[k].pcb.state=1;                //Prozesua blokeatuta
-                        proc_waiting[waiting]=CPU_list[i].core_list[j].thread_list[k].pcb;  //Blokeo listara sartu
+                        proc_waiting[waiting]=&CPU_list[i].core_list[j].thread_list[k].pcb;  //Blokeo listara sartu
                         waiting++;
                         CPU_list[i].core_list[j].thread_list[k].libre=0;                    //Haria askatu
                         CPU_list[i].core_list[j].thread_list[k].quantum=quantum;            //Quantuma berrezarri
@@ -86,9 +87,9 @@ void *roundRobin(void *argv){
                         printf("            Quantum-a: %d\n\n", CPU_list[i].core_list[j].thread_list[k].quantum);
                         CPU_list[i].core_list[j].thread_list[k].quantum --;                 //Quantuma murriztu
                         CPU_list[i].core_list[j].thread_list[k].pcb.zikloak --;             //Amaitzeko zikloak murriztu
-                        //lerroa_exekutatu(&CPU_list[i].core_list[j].thread_list[k]);
+                        lerroa_exekutatu(&CPU_list[i].core_list[j].thread_list[k]);
                         //esto no va por ciclos, este if habria que hacerlo con una variable
-                        if (CPU_list[i].core_list[j].thread_list[k].pcb.zikloak < 1)
+                        if (CPU_list[i].core_list[j].thread_list[k].pcb.exit == 1)
                         {
                             printf("\033[1;92m            %d. prozesua amaitu da.\033[0m\n\n", CPU_list[i].core_list[j].thread_list[k].pcb.pid);
                             CPU_list[i].core_list[j].thread_list[k].pcb.state=2;            //Prozesua amaitu da
@@ -100,7 +101,7 @@ void *roundRobin(void *argv){
                     {   
                     if (waiting>0)
                     {                                                                       //Haria libre dago :)
-                        CPU_list[i].core_list[j].thread_list[k].pcb=proc_waiting[0];        //Blokeo zerrendako lehena esleitu
+                        CPU_list[i].core_list[j].thread_list[k].pcb=*proc_waiting[0];        //Blokeo zerrendako lehena esleitu
                         CPU_list[i].core_list[j].thread_list[k].pcb.state=0;
                         for (h=0; h<waiting-1; h++){                                        //Zerrenda eguneratzen
                             proc_waiting[h]=proc_waiting[h+1];
@@ -111,7 +112,7 @@ void *roundRobin(void *argv){
                         printf("            Quantum-a: %d\n\n", CPU_list[i].core_list[j].thread_list[k].quantum);
                         CPU_list[i].core_list[j].thread_list[k].libre=1;
                         CPU_list[i].core_list[j].thread_list[k].quantum--;
-                        //lerroa_exekutatu(&CPU_list[i].core_list[j].thread_list[k]);
+                        lerroa_exekutatu(&CPU_list[i].core_list[j].thread_list[k]);
                         CPU_list[i].core_list[j].thread_list[k].pcb.zikloak--;
                     }
                     else printf("           Ez daude blokeatutako prozesurik\n\n");
@@ -158,7 +159,7 @@ void *fcfs(void *argv){
                     {
                         if (waiting>0)
                         {
-                            CPU_list[i].core_list[j].thread_list[k].pcb=proc_waiting[0];        //Blokeo zerrendako lehena esleitu
+                            CPU_list[i].core_list[j].thread_list[k].pcb=*proc_waiting[0];        //Blokeo zerrendako lehena esleitu
                             CPU_list[i].core_list[j].thread_list[k].pcb.state=0;
                             for (h=0; h<waiting-1; h++){                                        //Zerrenda eguneratzen
                                 proc_waiting[h]=proc_waiting[h+1];

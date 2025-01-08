@@ -48,7 +48,7 @@ struct pcb
 };
 
 extern struct pcb proc_list[MAX_PROC];
-extern struct pcb proc_waiting[MAX_PROC];
+extern struct pcb *proc_waiting[MAX_PROC];
 
 struct TLB
 {
