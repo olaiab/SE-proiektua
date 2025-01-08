@@ -33,8 +33,8 @@ extern pthread_cond_t cond2;
 struct mm
 {
     uint32_t pgb;
-    uint32_t code;
-    uint32_t data;
+    char *code;
+    char *data;
 };
 
 struct pcb
@@ -44,6 +44,7 @@ struct pcb
     int priority;   //
     int zikloak;    //zenbat ziklo bukatu arte
     struct mm mm;
+    int exit;       //0: amaitu gabe; 1: exit agindua irakurrita
 };
 
 extern struct pcb proc_list[MAX_PROC];
@@ -61,8 +62,8 @@ struct thread
     int quantum;    // Quantuma
     int libre;      // Hariaren egoera 0=libre || 1=exekutatzen
     void *PTBR;
-    void *PC;
-    void *IR;
+    int PC;
+    char *IR;
     void *MMU;
     struct TLB TLB;
 };

@@ -38,7 +38,7 @@ void memoria_hasieratu(){
         printf("\033[1;31mErrorea memoria fisikoa sortzerakoan\033[0m\n");
         exit (1);
     }
-    printf("\033[1mmMemoria fisikoa ondo hasieratua\033[0m\n");
+    printf("\033[1mMemoria fisikoa ondo hasieratua\033[0m\n");
 }
 
 int main(){
@@ -139,6 +139,8 @@ int main(){
                 CPU_list[i].core_list[j].thread_list[k].pcb.pid=-1;
                 CPU_list[i].core_list[j].thread_list[k].quantum=quantum;
                 CPU_list[i].core_list[j].thread_list[k].libre=0;
+                CPU_list[i].core_list[j].thread_list[k].PC=0;
+                CPU_list[i].core_list[j].thread_list[k].IR=malloc(100*sizeof(char));
             }
         }
     }
