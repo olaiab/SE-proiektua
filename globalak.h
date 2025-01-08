@@ -27,6 +27,7 @@ extern int waiting;
 extern int politika;
 extern int create_now;
 extern int power;
+extern long codestart, datastart;
 //clock
 extern pthread_mutex_t mutex;
 extern pthread_cond_t cond;
@@ -68,6 +69,7 @@ struct thread
     char *IR;
     void *MMU;
     struct TLB TLB;
+    int erregistroak[16];
 };
 
 struct core // CPU bakoitzean dauden core-ak

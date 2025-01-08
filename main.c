@@ -98,8 +98,7 @@ int main(){
 
         printf("\nPlanifikazio politika zehaztu:\n");
         printf("RoundRobin -------------------------- 1\n");
-        printf("First come, first served ------------ 2\n");
-        printf("Lehentasunak ------------------------ 3\n\n");
+        printf("First come, first served ------------ 2\n\n");
         while (!sarrera){
             scanf("%d", &input);
             if (input != 1 && input != 2 && input != 3){
@@ -190,14 +189,14 @@ int main(){
 
 
     //Hariak ezabatu
-    printf("\n    -Hariak ezabatzen...\n");
+    printf("\n-Hariak ezabatzen...\n");
     
     pthread_detach(clock_thread);
     pthread_detach(pgtimer_thread);
     pthread_detach(sctimer_thread);
 
     //Memoria askatu
-    printf("    -Memoria askatzen...\n");
+    printf("-Memoria askatzen...\n");
     for (i=0; i<CPUk; i++){
         for (j=0; j<corek; j++){
             for (k=0; k<threadsk; k++){
@@ -210,10 +209,10 @@ int main(){
     free(CPU_list);
     free(disko);
 
-    printf("    -Mutexak askatzen...\n");
+    printf("-Mutexak askatzen...\n");
     pthread_mutex_destroy(&mutex);
     pthread_cond_destroy(&cond);
     pthread_cond_destroy(&cond2);
 
-    printf("\n\033[1;92mEXEKUZIOA AMAITUTA\033[0m\n");
+    printf("\n\033[1;92mEXEKUZIOA AMAITUTA\033[0m\n\n");
 }
