@@ -7,12 +7,10 @@ pthread_mutex_t mutex;
 pthread_cond_t cond;
 pthread_cond_t cond2;
 
-int pg;
 int done;
 int pgtick;
 void *pgtimer_routine(void *argv){
     int i=0;
-    pg=0;
     //Mutexa blokeatu
     pthread_mutex_lock(&mutex);
     while(1)
@@ -24,7 +22,7 @@ void *pgtimer_routine(void *argv){
             //printf("[PGTim] Hola Don Pepito\n");
             //Aqui es donde se pone lo que queramos hacer hasta liberar el mutex
                 //darle permiso a processgen para existir
-            pg=1;
+            prozesua_sortu();
         }else i++;
         pthread_cond_signal(&cond); //"activa al menos un subproceso que actualmente está esperando en la variable de condición especificada por cond"
         pthread_cond_wait(&cond2, &mutex); //"bloquea el subproceso que realiza la llamada en la variable de condición cond y desbloquea el mutex asociado mutex"

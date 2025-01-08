@@ -163,10 +163,10 @@ int main(){
     pthread_create(&pgtimer_thread, NULL, pgtimer_routine, NULL);
     pthread_create(&sctimer_thread, NULL, sctimer_routine, NULL);
     //Prozesu sortzailea
-    pthread_create(&processgen_thread, NULL, processgen, NULL);
+    //pthread_create(&processgen_thread, NULL, processgen, NULL);
     //Scheduler
-    if (politika==1)        pthread_create(&scheduler_thread, NULL, roundRobin, NULL);
-    else if (politika==2)   pthread_create(&scheduler_thread, NULL, fcfs, NULL);
+    //if (politika==1)        pthread_create(&scheduler_thread, NULL, roundRobin, NULL);
+    //else if (politika==2)   pthread_create(&scheduler_thread, NULL, fcfs, NULL);
 
     pthread_join(clock_thread, NULL);
     pthread_join(pgtimer_thread, NULL);

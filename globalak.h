@@ -9,7 +9,7 @@
 void *clock_routine(void *argv);
 void *timer_routine(void *argv);
 void *processgen(void *argv);
-void *scheduler(void *argv);
+void *scheduler();
 
 extern int done;
 extern int tenp_kop;
@@ -80,4 +80,7 @@ struct CPU // CPU-ak
 extern struct CPU *CPU_list;
 
 extern uint8_t *disko;
+
+void *prozesua_sortu();
+void *scheduler();
 #endif 

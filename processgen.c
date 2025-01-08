@@ -65,8 +65,11 @@ void *programak_kargatu(struct pcb *pcb, char *fitx_izena){
         }
         lerro_zenb++;
     }
-    //printf("CODE\n%s\n\n", pcb->mm.code);
-    //printf("DATA\n%s\n\n", pcb->mm.data);
+    /*
+    printf("PID: %d\n", pcb->pid);
+    printf("CODE\n%s\n\n", pcb->mm.code);
+    printf("DATA\n%s\n\n", pcb->mm.data);
+    */
     fclose(fitx);    
 }
 
@@ -85,13 +88,14 @@ void *prozesua_sortu(){
     proc_list[pos].exit=0;
     proc_list[pos].zikloak=rand()%100;   //ziklo kopurua ausaz, gehienez 10 ziklo
     printf("\n\033[1;36mPROZESU BERRIA SORTUTA \nPID: %d \nZikloak: %d\033[0m\n", npid, proc_list[pos].zikloak);
+    
+    sprintf(fitx_izena, "prometheus/prog%03d.elf", proc_list[pos].pid);
+    programak_kargatu(&proc_list[pos], fitx_izena);
+    orri_taula_sortu(&proc_list[pos]);
     proc_waiting[waiting]=&proc_list[pos];
     waiting++;
-    sprintf(fitx_izena, "prometheus/prog%03d.elf", proc_list[pos].pid);
-    orri_taula_sortu(&proc_list[pos]);
-    programak_kargatu(&proc_list[pos], fitx_izena);
 }
-
+/*
 void *processgen(void *argv){  
     while(1)
     {
@@ -100,3 +104,4 @@ void *processgen(void *argv){
         pg=0;
     }
 }
+*/

@@ -11,7 +11,7 @@ int sc;
 int done;
 int sctick;
 void *sctimer_routine(void *argv){
-    sc=0;
+
     int i=0;
     //Mutexa blokeatu
     pthread_mutex_lock(&mutex);
@@ -24,7 +24,7 @@ void *sctimer_routine(void *argv){
             //printf("[SCTim] Hola Don José\n");
             //Aqui es donde se pone lo que queramos hacer hasta liberar el mutex
                 //Schedulerra martxan
-            sc=1;
+            scheduler();
         }else i++;
         pthread_cond_signal(&cond); //"activa al menos un subproceso que actualmente está esperando en la variable de condición especificada por cond"
         pthread_cond_wait(&cond2, &mutex); //"bloquea el subproceso que realiza la llamada en la variable de condición cond y desbloquea el mutex asociado mutex"
