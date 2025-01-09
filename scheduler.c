@@ -152,10 +152,18 @@ void *roundRobin(){
                     CPU_list[i].core_list[j].thread_list[k].quantum --;                   //Quantuma murriztu
                     if (CPU_list[i].core_list[j].thread_list[k].quantum==0)                 //Quantuma amaitu da
                     {
-                        printf("\033[1;31m            PID: %d prozesua blokeatu da.\033[0m\n", CPU_list[i].core_list[j].thread_list[k].pcb.pid);
-                        garbitu(proc_waiting);
-                        prozesua_blokeatu(&CPU_list[i].core_list[j].thread_list[k]);
-                        haria_askatu(&CPU_list[i].core_list[j].thread_list[k]);
+                        if (CPU_list[i].core_list[j].thread_list[k].pcb.exit == 1)
+                        {
+                            printf("\033[1;92m            %d. prozesua amaitu da.\033[0m\n\n", CPU_list[i].core_list[j].thread_list[k].pcb.pid);
+                            CPU_list[i].core_list[j].thread_list[k].pcb.state=2;            //Prozesua amaitu da
+                            haria_askatu(&CPU_list[i].core_list[j].thread_list[k]);
+                        }else{
+                            printf("\033[1;31m            PID: %d prozesua blokeatu da.\033[0m\n", CPU_list[i].core_list[j].thread_list[k].pcb.pid);
+                            garbitu(proc_waiting);
+                            prozesua_blokeatu(&CPU_list[i].core_list[j].thread_list[k]);
+                            haria_askatu(&CPU_list[i].core_list[j].thread_list[k]);
+                        }
+                        
                     }
                     if (CPU_list[i].core_list[j].thread_list[k].pcb.exit == 1)
                     {

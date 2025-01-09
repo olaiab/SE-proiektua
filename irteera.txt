@@ -1,8 +1,8 @@
 ╔═══════════════════════════════════╗
-║  SE·SO          09/01/2025  20:12 ║
+║  SE·SO          09/01/2025  23:49 ║
 ║        ☼☼☼ Prometheus ☼☼☼         ║
 ║ Programen izena: prog             ║
-║   ├ Lehenengo zenbakia: 001       ║
+║   ├ Lehenengo zenbakia: 076       ║
 ║   ├ Programen kopurua: 1          ║
 ║ Page/Frame size: 2^8   256        ║
 ║ Memoria Birtuala: 2^24            ║
