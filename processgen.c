@@ -76,11 +76,6 @@ void *programak_kargatu(struct pcb *pcb, char *fitx_izena){
 }
 
 void *prozesua_sortu(){
-    //Prozesu berri bat sortu
-        //Prozesuak sortu
-            //Listari gehitzeko: next es la posicion que tiene el ultimo proceso de la lista
-        //printf("[Progn] Posizioa: %d\n",pos);
-            //Hurrengo pid lortzeko: proc_list[next-1].pid es el pid del ultimo proceso
     char fitx_izena[32];
     char exekuzioa[256];
     int cpid=proc_list[pos].pid;
@@ -89,7 +84,6 @@ void *prozesua_sortu(){
     proc_list[pos].pid=npid;
     proc_list[pos].state=1;
     proc_list[pos].exit=0;
-    //proc_list[pos].zikloak=rand()%100;   //ziklo kopurua ausaz, gehienez 100 ziklo
     printf("\n\033[1;36mPROZESU BERRIA SORTUTA \nPID: %d \033[0m\n", npid);
     snprintf(exekuzioa, sizeof(exekuzioa), "./prometheus/prometheus -nprog -f%d -p1 -s%d > irteera.txt", proc_list[pos].pid, rand());
     system(exekuzioa);
@@ -99,13 +93,3 @@ void *prozesua_sortu(){
     proc_waiting[waiting]=&proc_list[pos];
     waiting++;
 }
-/*
-void *processgen(void *argv){  
-    while(1)
-    {
-        while(pg==0){}
-        prozesua_sortu();
-        pg=0;
-    }
-}
-*/

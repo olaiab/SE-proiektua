@@ -29,6 +29,7 @@ int blocked;
 int politika;
 int pos=0;
 int pid=1;
+int waiting;
 
 struct CPU *CPU_list;
 
@@ -162,6 +163,8 @@ int main(){
     }
 
     printf("    -Hardwarea hasieratuta\n");
+
+    waiting=0;
 
     printf("\033[1;92m\nSIMULAZIOA MARTXAN\033[0m\n");
 
