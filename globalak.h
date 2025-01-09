@@ -48,6 +48,7 @@ struct pcb
     int zikloak;    //zenbat ziklo bukatu arte
     struct mm mm;
     int exit;       //0: amaitu gabe; 1: exit agindua irakurrita
+    int PC;
 };
 
 extern struct pcb proc_list[MAX_PROC];

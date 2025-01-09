@@ -121,30 +121,30 @@ int main(){
             quantum=input;
         } else quantum=-1;    
 
-    printf("\n-------AUKERATUTAKO KONFIGURAZIOA-------\n");
-    printf("CPU kopurua: ------------------------- %d\n",CPUk);
-    printf("Core kopurua: ------------------------ %d\n",corek);
-    printf("Hari kopurua: ------------------------ %d\n",threadsk);
-    printf("Erlojuaren maiztasuna: --------------- %d\n",erlojua);
-    printf("Aukeratutako politika: --------------- %s\n",politikak[politika-1]);
-    if (politika==1) ("Quantumaren balioa: ------------------ %d\n",quantum);
+    printf("\n\033[1;7m--------AUKERATUTAKO KONFIGURAZIOA--------\033[0m\n");
+    printf("\033[0;7m CPU kopurua: -------------------------- %d\033[0m\n",CPUk);
+    printf("\033[0;7m Core kopurua: ------------------------- %d\033[0m\n",corek);
+    printf("\033[0;7m Hari kopurua: ------------------------- %d\033[0m\n",threadsk);
+    printf("\033[0;7m Erlojuaren maiztasuna: ---------------- %d\033[0m\n",erlojua);
+    printf("\033[0;7m Aukeratutako politika: ---------------- %s\033[0m\n",politikak[politika-1]);
+    if (politika==1) ("\033[0;7m Quantumaren balioa: --------------- %d\033[0m\n",quantum);
     printf("\n");
 
-    printf("\033[1mHASIERAKETAK\033[0m\n");
+    printf("\033[1;7m--------------- HASIERAKETAK ---------------\033[0m\n");
     if (opendir("programak")){
          //Aurreko exekuzioko programak ezabatu
-        printf("    -Programak ezabatzen\n");
+        printf("\033[0;7m -Aurreko programak ezabatzen --------------\n");
         system("rm -r programak");
     }
     system("mkdir programak");
-    printf("    -Direktorio berria sortuta\n");
+    printf("\033[0;7m -Direktorio berria sortuta ----------------\n");
 
     disko=malloc(MEM_TAMAINA);
     if (!disko){
-        printf("\033[1;31mErrorea memoria fisikoa sortzerakoan\033[0m\n");
+        printf("\033[1;31m -Errorea memoria fisikoa sortzerakoan\033[0m\n");
         exit (1);
     }
-    printf("    -Memoria fisikoa ondo hasieratua\n");
+    printf("\033[0;7m -Memoria fisikoa ondo hasieratua ----------\n");
 
     //Hardwarea hasieratu
     CPU_list = malloc(sizeof(struct CPU) * (int)CPUk);
@@ -162,12 +162,13 @@ int main(){
         }
     }
 
-    printf("    -Hardwarea hasieratuta\n");
+    printf("\033[0;7m -Hardwarea hasieratuta --------------------\n");
 
     waiting=0;
 
-    printf("\033[1;92m\nSIMULAZIOA MARTXAN\033[0m\n");
-
+    printf("\033[1;92m\n------------ SIMULAZIOA MARTXAN ------------\033[0m\n");
+    printf("\033[0;92m -Exekuzioa gelditzeko, sartu '.' eta 'enter'\033[0m\n");
+    sleep(1);
     //Mutex
     //Haria, -, errutina, argumentuak
     pthread_create(&clock_thread, NULL, clock_routine, NULL);
@@ -190,7 +191,6 @@ int main(){
         }
     }
 
-
     //Hariak ezabatu
     printf("\n-Hariak ezabatzen...\n");
     
@@ -212,10 +212,5 @@ int main(){
     free(CPU_list);
     free(disko);
 
-    printf("-Mutexak askatzen...\n");
-    pthread_mutex_destroy(&mutex);
-    pthread_cond_destroy(&cond);
-    pthread_cond_destroy(&cond2);
-
-    printf("\n\033[1;92mEXEKUZIOA AMAITUTA\033[0m\n\n");
+    printf("\n\033[1;92m\033[7m------------ EXEKUZIOA AMAITUTA ------------\033[0m\n\n");
 }

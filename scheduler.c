@@ -10,7 +10,7 @@ int waiting;
 int CPUk;
 int corek;
 int threadsk;
-pthread_mutex_t waiting_mutex;
+pthread_mutex_t lock;
 
 int hex_to_dec(int R){
     if (R>='0' && R<='9'){
@@ -22,18 +22,19 @@ int hex_to_dec(int R){
 }
 
 void lerroa_exekutatu(struct thread *thread){
+    pthread_mutex_lock(&lock);
     int error=1;
     if (thread->pcb.mm.code!=NULL)
     {
         if (thread->PC < (int)strlen(thread->pcb.mm.code))
-        {
+        {   
             error=0;
             snprintf(thread->IR, sizeof(thread->IR)+2, "%s", thread->pcb.mm.code + thread->PC);
             printf("\033[1;33m            PID %d: %.8s agindua exekutatzen --> \033[0m", thread->pcb.pid, thread->IR);
         }
     }else{
         if (thread->pcb.mm.code==NULL)printf("\033[1;31mPID: %d CODE = (null)\033[0m\n", thread->pcb.pid);
-        printf("\033[1;31mErrorea lerroa irakurtzean\033[0m\n");
+        printf("\033[1;31m            Errorea lerroa irakurtzean\033[0m\n");
         return;
     }
     thread->PC+=strlen(thread->IR);
@@ -76,7 +77,7 @@ void lerroa_exekutatu(struct thread *thread){
             break;
         }
     }
-    
+    pthread_mutex_unlock(&lock);
 }   
 
 int haria_askatu(struct thread *thread){
@@ -99,9 +100,9 @@ void garbitu(struct pcb *wait[MAX_PROC]){
 }
 
 void prozesua_esleitu(struct thread *thread){
-    pthread_mutex_lock(&waiting_mutex);
     thread->pcb=*proc_waiting[0];                                           //Blokeo zerrendako lehena esleitu
     thread->pcb.state=0;
+    thread->PC=thread->pcb.PC;
     if (waiting>1){
         for (int h=0; h<waiting-1; h++){                                        //Zerrenda eguneratzen
             proc_waiting[h]=proc_waiting[h+1];
@@ -109,14 +110,14 @@ void prozesua_esleitu(struct thread *thread){
     }
     waiting--;
     printf("\033[1;34m            PID: %d prozesua esleitu da.\033[0m\n", thread->pcb.pid);
-    printf("\033[1;34m            Quantum-a: %d\033[0m\n", thread->quantum);
+    if (politika==1) printf("\033[1;34m            Quantum-a: %d\033[0m\n", thread->quantum);
     thread->libre=1;
     thread->quantum--;
-    pthread_mutex_unlock(&waiting_mutex);
 }
 
 void prozesua_blokeatu(struct thread *thread){
     thread->pcb.state=1;                //Prozesua blokeatuta
+    thread->pcb.PC=thread->PC;
     proc_waiting[waiting]=&thread->pcb; //Blokeo listara sartu
     waiting++;
 }
@@ -128,10 +129,6 @@ void *roundRobin(){
     int h; //Blokeo zerrenda iteratzeko
 
     if (waiting>0){
-        printf("\n\033[1m-----ITXAROTE ZERRENDA-----\033[0m\n");
-        for (h=0; h<waiting; h++){                                        //Zerrenda inprimatzen
-                printf("    \033[1m-PID: %d EGOERA: %d\033[0m\n", proc_waiting[h]->pid, proc_waiting[h]->state);
-        }
         garbitu(proc_waiting);
         printf("\n\033[1m-----ITXAROTE ZERRENDA-----\033[0m\n");
         for (h=0; h<waiting; h++){                                        //Zerrenda inprimatzen
@@ -174,6 +171,15 @@ void *roundRobin(){
                     garbitu(proc_waiting);
                     prozesua_esleitu(&CPU_list[i].core_list[j].thread_list[k]);
                     lerroa_exekutatu(&CPU_list[i].core_list[j].thread_list[k]);
+                    if (quantum==1){
+                        if (CPU_list[i].core_list[j].thread_list[k].quantum==0)                 //Quantuma amaitu da
+                        {
+                            printf("\033[1;31m            PID: %d prozesua blokeatu da.\033[0m\n", CPU_list[i].core_list[j].thread_list[k].pcb.pid);
+                            garbitu(proc_waiting);
+                            prozesua_blokeatu(&CPU_list[i].core_list[j].thread_list[k]);
+                            haria_askatu(&CPU_list[i].core_list[j].thread_list[k]);
+                        }
+                    }
                 }
                 else printf("           Ez daude blokeatutako prozesurik.\n\n");
                 }

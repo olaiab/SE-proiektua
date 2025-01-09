@@ -84,8 +84,9 @@ void *prozesua_sortu(){
     proc_list[pos].pid=npid;
     proc_list[pos].state=1;
     proc_list[pos].exit=0;
+    proc_list[pos].PC=0;
     printf("\n\033[1;36mPROZESU BERRIA SORTUTA \nPID: %d \033[0m\n", npid);
-    snprintf(exekuzioa, sizeof(exekuzioa), "./prometheus/prometheus -nprog -f%d -p1 -s%d > irteera.txt", proc_list[pos].pid, rand());
+    snprintf(exekuzioa, sizeof(exekuzioa), "./prometheus/prometheus -nprog -f%d -l%d -p1 -s%d > irteera.txt", proc_list[pos].pid, 1+rand()%100, rand());
     system(exekuzioa);
     sprintf(fitx_izena, "programak/prog%03d.elf", proc_list[pos].pid);
     programak_kargatu(&proc_list[pos], fitx_izena);

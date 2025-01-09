@@ -27,5 +27,5 @@ void *clock_routine(void *argv){
         pthread_cond_broadcast(&cond2);
         pthread_mutex_unlock(&mutex);
     }
-    //pthread_mutex_unlock(&mutex);
+    pthread_mutex_unlock(&mutex);
 }
