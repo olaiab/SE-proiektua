@@ -1,7 +1,7 @@
 
 #ifndef GLOBALAK
 #define GLOBALAK
-#define MAX_PROC 2000
+#define MAX_PROC 2000000
 #define ORRI_TAMAINA 4096
 #define MEM_TAMAINA 1<<24   //mirar bien esto
 #include <stdint.h>

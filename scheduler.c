@@ -131,7 +131,7 @@ void *roundRobin(){
         garbitu(proc_waiting);
         printf("\n\033[1m-----ITXAROTE ZERRENDA-----\033[0m\n");
         for (h=0; h<waiting; h++){                                        //Zerrenda inprimatzen
-                printf("    \033[1m-PID: %d EGOERA: %d\033[0m\n", proc_waiting[h]->pid, proc_waiting[h]->state);
+                printf("    \033[1m-PID: %d \033[0m\n", proc_waiting[h]->pid);
         }
     }else printf("\n\033[1mEz dago prozesurik itxarote zerrendan\033[0m\n");
     for (i=0; i<CPUk; i++)
@@ -204,7 +204,7 @@ void *fcfs(){
     if (waiting>0){
         printf("\n\033[1m-----ITXAROTE ZERRENDA-----\033[0m\n");
                 for (h=0; h<waiting; h++){                                        //Zerrenda inprimatzen
-                        printf("    \033[1m-PID: %d EGOERA: %d\033[0m\n", proc_waiting[h]->pid, proc_waiting[h]->state);
+                        printf("    \033[1m-PID: %d \033[0m\n", proc_waiting[h]->pid);
                     }
     }else printf("\n\033[1mEz dago prozesurik itxarote zerrendan\033[0m\n");
     for (i=0; i<CPUk; i++)

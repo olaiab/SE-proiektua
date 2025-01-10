@@ -84,6 +84,10 @@ void *programak_kargatu(struct pcb *pcb, char *fitx_izena){
 }
 
 void *prozesua_sortu(){
+    if (pos==MAX_PROC-1){
+        printf("\033[1;31mSistemako prozesu maximo kopurura iritsi da\033[0m\n");
+        exit(0);
+    }
     char fitx_izena[32];
     char exekuzioa[256];
     int cpid=proc_list[pos].pid;
