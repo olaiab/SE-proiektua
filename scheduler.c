@@ -165,7 +165,7 @@ void *roundRobin(){
                         }
                         
                     }
-                    if (CPU_list[i].core_list[j].thread_list[k].pcb.exit == 1)
+                    if (CPU_list[i].core_list[j].thread_list[k].pcb.exit == 1)          
                     {
                         printf("\033[1;92m            %d. prozesua amaitu da.\033[0m\n\n", CPU_list[i].core_list[j].thread_list[k].pcb.pid);
                         CPU_list[i].core_list[j].thread_list[k].pcb.state=2;            //Prozesua amaitu da

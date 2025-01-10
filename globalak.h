@@ -42,13 +42,12 @@ struct mm
 
 struct pcb
 {
-    int pid;
+    int pid;        //prozesuaren pid
     int state;      //0: funtzionatzen; 1: blokeatuta; 2: amaituta;
-    int priority;   //
     int zikloak;    //zenbat ziklo bukatu arte
-    struct mm mm;
+    struct mm mm;   //memory management
     int exit;       //0: amaitu gabe; 1: exit agindua irakurrita
-    int PC;
+    int PC;         //exekuzioaren PC
 };
 
 extern struct pcb proc_list[MAX_PROC];

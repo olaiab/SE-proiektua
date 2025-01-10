@@ -89,8 +89,8 @@ void *prozesua_sortu(){
     snprintf(exekuzioa, sizeof(exekuzioa), "./prometheus/prometheus -nprog -f%d -l%d -p1 -s%d > irteera.txt", proc_list[pos].pid, 1+rand()%100, rand());
     system(exekuzioa);
     sprintf(fitx_izena, "programak/prog%03d.elf", proc_list[pos].pid);
-    programak_kargatu(&proc_list[pos], fitx_izena);
     orri_taula_sortu(&proc_list[pos]);
+    programak_kargatu(&proc_list[pos], fitx_izena);
     proc_waiting[waiting]=&proc_list[pos];
     waiting++;
 }
