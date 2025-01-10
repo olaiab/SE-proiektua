@@ -44,84 +44,91 @@ int main(){
     //Konfigurazio parametroak jaso
     int sarrera;
     int input=-666;
-        //Erlojuaren maiztasuna
+    //Erlojuaren maiztasuna
+    sarrera=0;
+    input=-666;
+    printf("Erlojuaren maiztasuna ezarri:   ");
+    while (!sarrera){
+        scanf("%d", &input);
+        if (input < 1){
+            printf("\nSarrera okerra, sartu berriro:   ");
+            while(getchar() != '\n');
+        } else sarrera++;
+    }
+    erlojua=input;
+    //CPU kopurua
+    sarrera=0;
+    input=-666;
+    printf("\nCPU kopurua ezarri (1, 2, 4, 8, 16):   ");
+    while (!sarrera){
+        scanf("%d", &input);
+        if (input != 1 && input != 2 && input != 4 && input != 8 && input != 16){
+            printf("\nSarrera okerra, sartu berriro:   ");
+            while(getchar() != '\n');
+        } else sarrera++;
+    }
+    CPUk=input;
+    //Core 
+    sarrera=0;
+    input=-666;
+    printf("\nCore kopurua ezarri (1, 2, 4, 8, 16):   ");
+    while (!sarrera){
+        scanf("%d", &input);
+        if (input != 1 && input != 2 && input != 4 && input != 8 && input != 16){
+            printf("\nSarrera okerra, sartu berriro:   ");
+            while(getchar() != '\n');
+        } else sarrera++;
+    }
+    corek=input;
+    //Hari kopurua
+    sarrera=0;
+    input=-666;
+    printf("\nHari kopurua ezarri (1, 2, 4, 8):   ");
+    while (!sarrera){
+        scanf("%d", &input);
+        if (input != 1 && input != 2 && input != 4 && input != 8){
+            printf("\nSarrera okerra, sartu berriro:   ");
+            while(getchar() != '\n');
+        } else sarrera++;
+    }
+    threadsk=input;
+    //Planifikazio politika
+    sarrera=0;
+    input=-666;
+    char *politikak[]={
+        "RoundRobin",
+        "First come, first served",
+        "Lehentasunak"
+    };
+
+    printf("\nPlanifikazio politika zehaztu:\n");
+    printf("RoundRobin -------------------------- 1\n");
+    printf("First come, first served ------------ 2\n\n");
+    while (!sarrera){
+        scanf("%d", &input);
+        if (input != 1 && input != 2 && input != 3){
+            printf("\nSarrera okerra, sartu berriro:    ");
+            while(getchar() != '\n');
+        } else sarrera++;
+    }
+    politika=input;
+    //Quantuma
+    if (politika==1){
         sarrera=0;
         input=-666;
-        printf("Erlojuaren maiztasuna ezarri:   ");
+        printf("\nQuantumaren balioa ezarri:    ");
         while (!sarrera){
             scanf("%d", &input);
             if (input < 1){
-                printf("\nSarrera okerra, sartu berriro:   ");
+                printf("\nSarrera okerra, sartu berriro:  ");
+                while(getchar() != '\n');
+                while(getchar() != '\n');
             } else sarrera++;
         }
-        erlojua=input;
-        //CPU kopurua
-        sarrera=0;
-        input=-666;
-        printf("\nCPU kopurua ezarri (1, 2, 4, 8, 16, 32, 64):   ");
-        while (!sarrera){
-            scanf("%d", &input);
-            if (input != 1 && input != 2 && input != 4 && input != 8 && input != 16 && input != 32 && input != 64 ){
-                printf("\nSarrera okerra, sartu berriro:   ");
-            } else sarrera++;
-        }
-        CPUk=input;
-        //Core 
-        sarrera=0;
-        input=-666;
-        printf("\nCore kopurua ezarri (1, 2, 4, 8, 16, 32, 64):   ");
-        while (!sarrera){
-            scanf("%d", &input);
-            if (input != 1 && input != 2 && input != 4 && input != 8 && input != 16 && input != 32 && input != 64 ){
-                printf("\nSarrera okerra, sartu berriro:   ");
-            } else sarrera++;
-        }
-        corek=input;
-        //Hari kopurua
-        sarrera=0;
-        input=-666;
-        printf("\nHari kopurua ezarri (1, 2, 4, 8):   ");
-        while (!sarrera){
-            scanf("%d", &input);
-            if (input != 1 && input != 2 && input != 4 && input != 8){
-                printf("\nSarrera okerra, sartu berriro:   ");
-            } else sarrera++;
-        }
-        threadsk=input;
-        //Planifikazio politika
-        sarrera=0;
-        input=-666;
-        char *politikak[]={
-            "RoundRobin",
-            "First come, first served",
-            "Lehentasunak"
-        };
+        quantum=input;
+    } else quantum=-1;    
 
-        printf("\nPlanifikazio politika zehaztu:\n");
-        printf("RoundRobin -------------------------- 1\n");
-        printf("First come, first served ------------ 2\n\n");
-        while (!sarrera){
-            scanf("%d", &input);
-            if (input != 1 && input != 2 && input != 3){
-                printf("\nSarrera okerra, sartu berriro:    ");
-            } else sarrera++;
-        }
-        politika=input;
-        //Quantuma
-        if (politika==1){
-            sarrera=0;
-            input=-666;
-            printf("\nQuantumaren balioa ezarri:    ");
-            while (!sarrera){
-                scanf("%d", &input);
-                if (input < 1){
-                    printf("\nSarrera okerra, sartu berriro:  ");
-                } else sarrera++;
-            }
-            quantum=input;
-        } else quantum=-1;    
-
-    printf("\n\033[1;7m--------AUKERATUTAKO KONFIGURAZIOA--------\033[0m\n");
+    printf("\n\033[1;7m---------AUKERATUTAKO KONFIGURAZIOA---------\033[0m\n");
     printf("\033[0;7m CPU kopurua: -------------------------- %d\033[0m\n",CPUk);
     printf("\033[0;7m Core kopurua: ------------------------- %d\033[0m\n",corek);
     printf("\033[0;7m Hari kopurua: ------------------------- %d\033[0m\n",threadsk);
@@ -192,14 +199,14 @@ int main(){
     }
 
     //Hariak ezabatu
-    printf("\n-Hariak ezabatzen...\n");
+    printf("\n\033[0;92m\033[7m -Hariak ezabatzen...                       \033[0m\n");
     
     pthread_detach(clock_thread);
     pthread_detach(pgtimer_thread);
     pthread_detach(sctimer_thread);
 
     //Memoria askatu
-    printf("-Memoria askatzen...\n");
+    printf("\033[0;92m\033[7m -Memoria askatzen...                       \033[0m\n");
     for (i=0; i<CPUk; i++){
         for (j=0; j<corek; j++){
             for (k=0; k<threadsk; k++){

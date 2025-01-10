@@ -7,7 +7,6 @@ pthread_mutex_t mutex;
 pthread_cond_t cond;
 pthread_cond_t cond2;
 
-int sc;
 int done;
 int sctick;
 int power;
@@ -20,12 +19,10 @@ void *sctimer_routine(void *argv){
     while(power==1)
     {
         done++;
-         if (i>=erlojua){
+        if (i>=erlojua){
             sctick=1;
             i=0;
             //printf("[SCTim] Hola Don José\n");
-            //Aqui es donde se pone lo que queramos hacer hasta liberar el mutex
-                //Schedulerra martxan
             scheduler();
         }else i++;
         pthread_cond_signal(&cond); //"activa al menos un subproceso que actualmente está esperando en la variable de condición especificada por cond"

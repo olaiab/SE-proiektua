@@ -47,27 +47,35 @@ void *programak_kargatu(struct pcb *pcb, char *fitx_izena){
             datastart=strtol(datahelb, NULL, 16);
         }
         else{
+           if (lerro_zenb < ((datastart) + 8) / 4) {
+                size_code += strlen(lerroa) + 1; 
 
-            if(lerro_zenb<((datastart)+8)/4){
-                size_code+=strlen(lerroa)+1;
-                if(pcb->mm.code==NULL){
-                    pcb->mm.code=(char *)malloc(size_code);
-                }else pcb->mm.code=(char *)realloc(pcb->mm.code,size_code);
+                if (pcb->mm.code == NULL) {
+                    pcb->mm.code = (char *)malloc(size_code);
+                    pcb->mm.code[0] = '\0';
+                } else {
+                    char *temp = (char *)realloc(pcb->mm.code, size_code);
+                    pcb->mm.code = temp;
+                }
                 strcat(pcb->mm.code, lerroa);
-            }
-            else //(lerro_zenb<(atoi(datahelb))+2)
-            {
-                size_data+=strlen(lerroa)+1;
-                if(pcb->mm.data==NULL){
-                    pcb->mm.data=(char *)malloc(size_data);
-                }else pcb->mm.data=(char *)realloc(pcb->mm.data,size_data);
+
+            } else { 
+                size_data += strlen(lerroa) + 1;
+
+                if (pcb->mm.data == NULL) {
+                    pcb->mm.data = (char *)malloc(size_data);
+                    pcb->mm.data[0] = '\0';
+                } else {
+                    char *temp = (char *)realloc(pcb->mm.data, size_data);
+                    pcb->mm.data = temp;
+                }
                 strcat(pcb->mm.data, lerroa);
             }
         }
         lerro_zenb++;
     }
     /*
-    printf("PID: %d\n", pcb->pid);
+    printf("PID: %d\n", pcb->pid);.
     printf("CODE\n%s\n\n", pcb->mm.code);
     printf("DATA\n%s\n\n", pcb->mm.data);
     */

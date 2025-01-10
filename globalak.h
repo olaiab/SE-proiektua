@@ -40,13 +40,12 @@ struct mm
     char *data;
 };
 
-struct pcb
+struct pcb //prozesuak
 {
     int pid;        //prozesuaren pid
     int state;      //0: funtzionatzen; 1: blokeatuta; 2: amaituta;
-    int zikloak;    //zenbat ziklo bukatu arte
     struct mm mm;   //memory management
-    int exit;       //0: amaitu gabe; 1: exit agindua irakurrita
+    int exit;       //0: amaitu gabe; 1: exit 
     int PC;         //exekuzioaren PC
 };
 
@@ -59,14 +58,14 @@ struct TLB
     void *TLB_list;
 };
 
-struct thread 
+struct thread // Core bakoitzean dauden hariak
 {
     struct pcb pcb; // Hari honek duen prozesuaren pcb
     int quantum;    // Quantuma
     int libre;      // Hariaren egoera 0=libre || 1=exekutatzen
     void *PTBR;
-    int PC;
-    char *IR;
+    int PC;         //Prozesuaren PC
+    char *IR;       //Aginduaren IR
     void *MMU;
     struct TLB TLB;
     int erregistroak[16];
@@ -85,6 +84,4 @@ extern struct CPU *CPU_list;
 
 extern uint8_t *disko;
 
-void *buennoc[sizeof(int)];
-int buennkop;
 #endif 

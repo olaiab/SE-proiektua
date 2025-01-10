@@ -51,7 +51,6 @@ void lerroa_exekutatu(struct thread *thread){
             R1=hex_to_dec(thread->IR[1]);  
             strncpy(helbidea, &thread->IR[2], 6);
             helb=strtoul(helbidea, NULL, 16);
-            //thread->erregistroak[R1]=;
             printf("\033[1;33mLD R%d, 0x%s\033[0m\n", R1, helbidea);
             break;
         case '1':
